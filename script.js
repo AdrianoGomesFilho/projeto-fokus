@@ -26,6 +26,7 @@ longoButton.addEventListener('click', () => {
 function alterarContexto(contexto) {
     botoes.forEach(function (contexto) {
         contexto.classList.remove('active')
+        console.log(contexto)
     })
     
     html.setAttribute('data-contexto', contexto)
