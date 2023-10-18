@@ -1,5 +1,6 @@
 const taskListContainer = document.querySelector('.app__section-task-list')
 const formTask = document.querySelector('.app__form-add-task')
+const cancelFormTaskBtn = document.querySelector('.app__form-footer__button--cancel')
 const toggleFormTaskBtn = document.querySelector('.app__button--add-task')
 const formLabel = document.querySelector('.app__form-label')
 const textarea = document.querySelector('.app__form-textarea')
@@ -14,6 +15,7 @@ const taskIconSvg = `
         fill="white" />
 </svg>
 `
+
 
 function createTask(tarefa) {
     const li = document.createElement('li')
@@ -39,13 +41,19 @@ tarefas.forEach(task =>
         taskListContainer.appendChild(taskItem)
     })
 
+cancelFormTaskBtn.addEventListener('click', () =>{
+    formTask.classList.toggle('hidden')
+    textarea.value = ''
+}
+)
+
 toggleFormTaskBtn.addEventListener('click', () => {
     formLabel.textContent = 'Adicionando tarefa'
     formTask.classList.toggle('hidden')
 })
 
 formTask.addEventListener('submit', (evento) => {
-    evento.preventDefault()
+    evento.preventDefault() //evita a página atualizar automaticamente após submite
     const task = {
         descricao: textarea.value,
         concluida: false
@@ -53,4 +61,5 @@ formTask.addEventListener('submit', (evento) => {
     tarefas.push(task)
     const taskItem = createTask(task)
     taskListContainer.appendChild(taskItem)
+    textarea.value = ''
 })
