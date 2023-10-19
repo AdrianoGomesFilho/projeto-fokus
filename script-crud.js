@@ -1,11 +1,14 @@
 const taskListContainer = document.querySelector('.app__section-task-list')
 const formTask = document.querySelector('.app__form-add-task')
 const cancelFormTaskBtn = document.querySelector('.app__form-footer__button--cancel')
+const taskActiveDescription = document.querySelector('.app__section-active-task-description')
 const toggleFormTaskBtn = document.querySelector('.app__button--add-task')
 const formLabel = document.querySelector('.app__form-label')
 const textarea = document.querySelector('.app__form-textarea')
 
-let tarefas = []
+const localStorageTarefas = localStorage.getItem('tarefas')
+
+let tarefas = localStorageTarefas ? JSON.parse(localStorageTarefas) : []
 
 const taskIconSvg = `
 <svg width="18" height="14" viewBox="0 0 18 14" fill="none"
@@ -15,7 +18,12 @@ const taskIconSvg = `
         fill="white" />
 </svg>
 `
+let tarefaSelecionada = null
+let itemTarefaSelecionada = null
 
+const selecionaTarefa = () => {
+    taskActiveDescription.textContent(`${tarefa}: ${li}dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd`)
+}
 
 function createTask(tarefa) {
     const li = document.createElement('li')
@@ -28,6 +36,10 @@ function createTask(tarefa) {
     paragraph.classList.add('app__section-task-list-item-description')
 
     paragraph.textContent = tarefa.descricao
+
+    li.onclick = () => {
+        selecionaTarefa(tarefa, li)
+    }
 
     li.appendChild(svgIcon)
     li.appendChild(paragraph)
@@ -52,6 +64,10 @@ toggleFormTaskBtn.addEventListener('click', () => {
     formTask.classList.toggle('hidden')
 })
 
+const updateLocalStorage = () => {
+    localStorage.setItem('tarefas', JSON.stringify(tarefas))
+}
+
 formTask.addEventListener('submit', (evento) => {
     evento.preventDefault() //evita a página atualizar automaticamente após submite
     const task = {
@@ -61,5 +77,6 @@ formTask.addEventListener('submit', (evento) => {
     tarefas.push(task)
     const taskItem = createTask(task)
     taskListContainer.appendChild(taskItem)
+    updateLocalStorage ()
     textarea.value = ''
 })
