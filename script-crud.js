@@ -8,6 +8,7 @@ const textarea = document.querySelector('.app__form-textarea')
 
 const localStorageTarefas = localStorage.getItem('tarefas')
 
+
 let tarefas = localStorageTarefas ? JSON.parse(localStorageTarefas) : []
 
 const taskIconSvg = `
@@ -21,8 +22,10 @@ const taskIconSvg = `
 let tarefaSelecionada = null
 let itemTarefaSelecionada = null
 
-// const selecionaTarefa = () => {
-//     taskActiveDescription.textContent(`${tarefa}: ${li}`)
+// const selecionaTarefa = (tarefa, li) => {
+//         taskActiveDescription.textContent = tarefa.descricao
+//         const li = createElement('p')
+    
 // }
 
 function createTask(tarefa) {
@@ -37,8 +40,9 @@ function createTask(tarefa) {
 
     paragraph.textContent = tarefa.descricao
 
-    li.onclick = () => {
+    li.onclick = () => { //desafio
         selecionaTarefa(tarefa, li)
+        
     }
 
     li.appendChild(svgIcon)
