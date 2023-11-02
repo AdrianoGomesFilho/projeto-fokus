@@ -21,9 +21,10 @@ const taskIconSvg = `
 let tarefaSelecionada = null
 let itemTarefaSelecionada = null
 
-// const selecionaTarefa = () => {
-//     taskActiveDescription.textContent(`${tarefa}: ${li}`)
-// }
+const selecionaTarefa = (tarefa) => {
+        taskActiveDescription.textContent = tarefa.descricao
+    
+}
 
 function createTask(tarefa) {
     const li = document.createElement('li')
