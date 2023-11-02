@@ -18,6 +18,7 @@ const taskIconSvg = `
         fill="white" />
 </svg>
 `
+
 let tarefaSelecionada = null
 let itemTarefaSelecionada = null
 
@@ -47,6 +48,10 @@ function createTask(tarefa) {
 
     return li
 }
+
+// svgIcon.addEventListener('click', () => {
+//     li.classList.add('concluido')
+// })
 
 tarefas.forEach(task =>
     {
