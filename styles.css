@@ -196,6 +196,10 @@ h1, h2, h3, h4, h5, h6 {
     color: rgba(172, 255, 47, 0.298);
 }
 
+.concluidomyself {
+    background-color: greenyellow;
+}
+
 .app__section-task-content {
     width: 59rem;
     max-width: 90%;

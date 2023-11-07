@@ -42,17 +42,25 @@ function createTask(tarefa) {
     li.onclick = () => {
         selecionaTarefa(tarefa, li)
     }
-    const button = document.createElement('button')
+    
+    // const button = document.createElement('button')
+    // svgIcon.addEventListener('click', (event) => {
+    //     event.stopPropagation()
+    //     button.setAttribute('disabled', true)
+    //     li.classList.add('app__section-task-list-item-complete')
+    // })
+
+    // if(tarefa.concluida){
+    //     button.setAttribute('disabled', true)
+    //     li.classList.add('app__section-task-list-item-complete')
+    // }
+
     svgIcon.addEventListener('click', (event) => {
         event.stopPropagation()
-        button.setAttribute('disabled', true)
-        li.classList.add('app__section-task-list-item-complete')
+        li.classList.toggle('concluidomyself')
     })
 
-    if(tarefa.concluida){
-        button.setAttribute('disabled', true)
-        li.classList.add('app__section-task-list-item-complete')
-    }
+
     li.appendChild(svgIcon)
     li.appendChild(paragraph)
 
