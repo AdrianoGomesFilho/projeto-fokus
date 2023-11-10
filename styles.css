@@ -196,10 +196,6 @@ h1, h2, h3, h4, h5, h6 {
     color: rgba(172, 255, 47, 0.298);
 }
 
-.concluidomyself {
-    background-color: greenyellow;
-}
-
 .app__section-task-content {
     width: 59rem;
     max-width: 90%;
@@ -295,7 +291,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .app__section-task-list-item-complete.app__section-task-list-item {
     background: var(--fundo-card-concludo);
-    cursor: inherit;
+    /* cursor: inherit; */
 }
 
 .app__section-task-list-item-active.app__section-task-list-item {

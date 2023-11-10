@@ -43,21 +43,26 @@ function createTask(tarefa) {
         selecionaTarefa(tarefa, li)
     }
     
+    // Trecho do instrutor - Problema: a task concluida fica travada, não dá para desfazer
+
+
     // const button = document.createElement('button')
     // svgIcon.addEventListener('click', (event) => {
     //     event.stopPropagation()
-    //     button.setAttribute('disabled', true)
-    //     li.classList.add('app__section-task-list-item-complete')
+    //     button.setAttribute('disabled', true) //Desativa o uso dele
+    //     li.classList.toggle('app__section-task-list-item-complete')
     // })
 
     // if(tarefa.concluida){
     //     button.setAttribute('disabled', true)
     //     li.classList.add('app__section-task-list-item-complete')
+    
     // }
 
+    const button = document.createElement('button')
     svgIcon.addEventListener('click', (event) => {
         event.stopPropagation()
-        li.classList.toggle('concluidomyself')
+        li.classList.toggle('app__section-task-list-item-complete')
     })
 
 
