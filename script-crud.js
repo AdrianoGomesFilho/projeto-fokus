@@ -20,13 +20,26 @@ const taskIconSvg = `
 </svg>
 `
 
-let tarefaSelecionada = null
-let itemTarefaSelecionada = null
+const limparForm = () => {
+    textarea.value = ''
+    formTask.classList.toggle('hidden')
+}
 
 const selecionaTarefa = (tarefa) => {
         taskActiveDescription.textContent = tarefa.descricao
     
 }
+
+
+const selecionaTarefaParaEditar = (tarefa, elemento) => {
+    limparForm()
+
+    formLabel.textContent='Editando tarefa'
+    paragraphEmEdicao=elemento
+    textarea.value = tarefa.descricao
+    formTask.classList.remove('hidden')
+}
+
 
 function createTask(tarefa) {
     const li = document.createElement('li')
@@ -41,29 +54,20 @@ function createTask(tarefa) {
     paragraph.textContent = tarefa.descricao
 
     const button = document.createElement('button')
-    button.classList.add('app__button-edit')
+    button.classList.add('app_button-edit')
     const editIcon = document.createElement('img')
     editIcon.setAttribute('src', '/imagens/edit.png')
+
     button.appendChild(editIcon)
+
+    button.addEventListener('click', (event) =>{
+        event.stopPropagation()
+        selecionaTarefaParaEditar(tarefa, paragraph)
+    })
 
     li.onclick = () => {
         selecionaTarefa(tarefa, li)
     }
-    
-    // Trecho do instrutor - Problema: a task concluida fica travada, não dá para desfazer
-    // const button = document.createElement('button')
-    // svgIcon.addEventListener('click', (event) => {
-    //     event.stopPropagation()
-    //     button.setAttribute('disabled', true) //Desativa o uso dele
-    //     li.classList.toggle('app__section-task-list-item-complete')
-    // })
-
-    // if(tarefa.concluida){
-    //     button.setAttribute('disabled', true)
-    //     li.classList.add('app__section-task-list-item-complete')
-    
-    // }
-
    
     svgIcon.addEventListener('click', (event) => {
         event.stopPropagation()
@@ -78,9 +82,6 @@ function createTask(tarefa) {
     return li
 }
 
-// svgIcon.addEventListener('click', () => {
-//     li.classList.add('concluido')
-// })
 
 tarefas.forEach(task =>
     {
@@ -89,8 +90,7 @@ tarefas.forEach(task =>
     })
 
 cancelFormTaskBtn.addEventListener('click', () =>{
-    formTask.classList.toggle('hidden')
-    textarea.value = ''
+    limparForm();
 }
 )
 
@@ -103,15 +103,27 @@ const updateLocalStorage = () => {
     localStorage.setItem('tarefas', JSON.stringify(tarefas))
 }
 
+
+//entender esse trecho
 formTask.addEventListener('submit', (evento) => {
-    evento.preventDefault() //evita a página atualizar automaticamente após submite
+    evento.preventDefault();
+
     const task = {
         descricao: textarea.value,
         concluida: false
     }
-    tarefas.push(task)
-    const taskItem = createTask(task)
-    taskListContainer.appendChild(taskItem)
-    updateLocalStorage ()
-    textarea.value = ''
-})
+
+    if (paragraphEmEdicao) {
+        // If paragraphEmEdicao is set, update the existing task
+        paragraphEmEdicao.textContent = task.descricao;
+        paragraphEmEdicao = null; // Reset the editing reference
+    } else {
+        // If paragraphEmEdicao is not set, add a new task
+        tarefas.push(task);
+        const taskItem = createTask(task);
+        taskListContainer.appendChild(taskItem);
+    }
+
+    updateLocalStorage();
+    limparForm();
+});

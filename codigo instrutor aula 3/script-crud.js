@@ -28,6 +28,9 @@ const taskIconSvg = `
 let tarefaSelecionada = null
 let itemTarefaSelecionada = null
 
+let tarefaEmEdicao = null
+let paragraphEmEdicao = null
+
 const selecionaTarefa = (tarefa, elemento) => {
     
     document.querySelectorAll('.app__section-task-list-item-active').forEach(function (button) {
@@ -48,8 +51,23 @@ const selecionaTarefa = (tarefa, elemento) => {
 }
 
 const limparForm = () => {
+    tarefaEmEdicao = null
+    paragraphEmEdicao = null
     textarea.value = ''
     formTask.classList.add('hidden')
+}
+
+const selecionaTarefaParaEditar = (tarefa, elemento) => {
+    if(tarefaEmEdicao == tarefa) {
+        limparForm()
+        return
+    }
+
+    formLabel.textContent='Editando tarefa'
+    tarefaEmEdicao=tarefa
+    paragraphEmEdicao=elemento
+    textarea.value = tarefa.descricao
+    formTask.classList.remove('hidden')
 }
 
 function createTask(tarefa) {
@@ -65,6 +83,16 @@ function createTask(tarefa) {
     paragraph.textContent = tarefa.descricao
 
     const button = document.createElement('button')
+    button.classList.add('app_button-edit')
+    const editIcon = document.createElement('img')
+    editIcon.setAttribute('src', '/imagens/edit.png')
+
+    button.appendChild(editIcon)
+
+    button.addEventListener('click', (event) =>{
+        event.stopPropagation()
+        selecionaTarefaParaEditar(tarefa, paragraph)
+    })
 
     li.onclick = () => {
         selecionaTarefa(tarefa, li)
@@ -83,6 +111,7 @@ function createTask(tarefa) {
 
     li.appendChild(svgIcon)
     li.appendChild(paragraph)
+    li.appendChild(button)
     
     return li
 }
@@ -109,6 +138,10 @@ const updateLocalStorage = () => {
 
 formTask.addEventListener('submit', (evento) => {
     evento.preventDefault()
+    if(tarefaEmEdicao) {
+        tarefaEmEdicao.descricao = textarea.value
+        paragraphEmEdicao.textContent = textarea.value
+    } else {
     const task = {
         descricao: textarea.value,
         concluida: false
@@ -116,7 +149,7 @@ formTask.addEventListener('submit', (evento) => {
     tarefas.push(task)
     const taskItem = createTask(task)
     taskListContainer.appendChild(taskItem)
-
+}
     updateLocalStorage()
     limparForm()
 })
