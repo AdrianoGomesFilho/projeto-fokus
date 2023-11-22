@@ -114,11 +114,11 @@ formTask.addEventListener('submit', (evento) => {
     }
 
     if (paragraphEmEdicao) {
-        // If paragraphEmEdicao is set, update the existing task
+        // EDITAR
         paragraphEmEdicao.textContent = task.descricao;
-        paragraphEmEdicao = null; // Reset the editing reference
+        paragraphEmEdicao = null;
     } else {
-        // If paragraphEmEdicao is not set, add a new task
+        // ADICIONAR
         tarefas.push(task);
         const taskItem = createTask(task);
         taskListContainer.appendChild(taskItem);
