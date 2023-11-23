@@ -6,8 +6,6 @@ const banner = document.querySelector('.app__image')
 const titulo = document.querySelector('.app__title')
 const botoes = document.querySelectorAll('.app__card-button')
 const startPauseBt = document.querySelector('#start-pause')
-const zerarBt = document.querySelector('#zerar')
-
 const musicaFocoInput = document.querySelector('#alternar-musica')
 const iniciarOuPausarBt = document.querySelector('#start-pause span')
 const iniciarOuPausarBtIcone = document.querySelector(".app__card-primary-butto-icon") 
@@ -30,12 +28,6 @@ musicaFocoInput.addEventListener('change', () => {
         musica.pause()
     }
 })
-
-const initialTimers = {
-    'foco': 1500,
-    'descanso-curto': 300,
-    'descanso-longo': 900
-}
 
 focoBt.addEventListener('click', () => {
     tempoDecorridoEmSegundos = 1500
@@ -84,40 +76,35 @@ function alterarContexto(contexto) {
 }
 
 const contagemRegressiva = () => {
-    if(tempoDecorridoEmSegundos <= 0){
-        audioTempoFinalizado.play()
-        alert('Tempo finalizado!')
-        if (tempoDecorridoEmSegundos <= 0) {
-            zerar()
-            const focoAtivo = html.getAttribute('data-contexto') === 'foco'
-            if (focoAtivo) {            
-                var event = new CustomEvent("TarefaFinalizada", {
-                    detail: {
-                        message: "A tarefa foi concluída com sucesso!",
-                        time: new Date(),
-                    },
-                    bubbles: true,
-                    cancelable: true
-                });
-                document.dispatchEvent(event);
-                tempoDecorridoEmSegundos = 5
-                mostrarTempo()
-            }
+    if (tempoDecorridoEmSegundos <= 0) {
+        zerar()
+        const focoAtivo = html.getAttribute('data-contexto') === 'foco'
+        if (focoAtivo) {            
+            var event = new CustomEvent("TarefaFinalizada", {
+                detail: {
+                    message: "A tarefa foi concluída com sucesso!",
+                    time: new Date(),
+                },
+                bubbles: true,
+                cancelable: true
+            });
+            document.dispatchEvent(event);
+            tempoDecorridoEmSegundos = 5
+            mostrarTempo()
+        }
 
         return
     }
     tempoDecorridoEmSegundos -= 1
     mostrarTempo()
 }
-}
 
 startPauseBt.addEventListener('click', iniciarOuPausar)
-zerarBt.addEventListener('click', zerar)
 
 function iniciarOuPausar() {
     if(intervaloId){
         audioPausa.play()
-        pausar()
+        zerar()
         return
     }
     audioPlay.play()
@@ -126,28 +113,11 @@ function iniciarOuPausar() {
     iniciarOuPausarBtIcone.setAttribute('src', `/imagens/pause.png`)
 }
 
-function pausar() {
-    clearInterval(intervaloId) 
-    iniciarOuPausarBt.textContent = "Começar"
-    iniciarOuPausarBtIcone.setAttribute('src', `/imagens/play_arrow.png`)
-    intervaloId = null
-
-}
-
 function zerar() {
     clearInterval(intervaloId) 
     iniciarOuPausarBt.textContent = "Começar"
     iniciarOuPausarBtIcone.setAttribute('src', `/imagens/play_arrow.png`)
     intervaloId = null
-    
-    audioTempoFinalizado.play()
-
-    const contextoAtual = html.getAttribute('data-contexto')
-
-    tempoDecorridoEmSegundos = initialTimers[contextoAtual]
-
-    mostrarTempo();
-
 }
 
 function mostrarTempo() {
