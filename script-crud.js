@@ -113,7 +113,7 @@ formTask.addEventListener('submit', (evento) => {
         concluida: false
     }
 
-    if (paragraphEmEdicao) {
+    if (paragraphEmEdicao != null) {
         // EDITAR
         paragraphEmEdicao.textContent = task.descricao;
         paragraphEmEdicao = null;
